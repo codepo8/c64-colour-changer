@@ -9,6 +9,7 @@ Tested on Safari, Edge, Firefox and Chrome.
 * Press the "load" button to upload your image. You can also paste it into the browser or drag it into the browser window.
 * Click the colour you want to change using the zoom feature. Once clicked, the colour will show in the swatch next to the zoom. 
 * Select a colour (or transparency) from the palette below and all the pixels in the image will change.
+* If you made a mistake, hit the "undo" button
 * Save the image either by clicking the save button, or copying|saving the image directly by right-clicking on it.
 
 ## Credits

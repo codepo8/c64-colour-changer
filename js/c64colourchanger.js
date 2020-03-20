@@ -13,6 +13,7 @@
   var c64palette = document.querySelector('#c64colours');
   var container =  document.querySelector('#container');
   var save =  document.querySelector('#savebutton');
+  var undobutton = document.querySelector('#undobutton');
   var url = window.URL || window.webkitURL;
   var objURL = url.createObjectURL || false;
   var fileinput = document.querySelector('#getfile');
@@ -26,6 +27,7 @@
   zcx.mozImageSmoothingEnabled = false;
   zcx.webkitImageSmoothingEnabled = false;
   var pixels;
+  var store;
   var colourpicked = false;
   var oldpixelcolour;
   var pixelbuffer = [];
@@ -70,8 +72,10 @@
     e.preventDefault();
   }
 
-  function replacecolour(moo, oldcolour, newcolour) {
+  function replacecolour(data, oldcolour, newcolour) {
     var all = pixelbuffer.length;
+    undobutton.classList.remove('inactive');
+    store = ctx.getImageData(0, 0, c.width, c.height);
     for(var j = 0; j < all; j++) {
       var i = pixelbuffer[j];
         pixels.data[i] = newcolour[0];
@@ -126,6 +130,12 @@
           pixels.data[i+3] === col.a) {
         pixelbuffer.push(i);
       }
+    }
+  }
+
+  function undo() {
+    if (store.data) { 
+      ctx.putImageData(store, 0, 0);
     }
   }
 
@@ -190,7 +200,6 @@
   }
 
   function loadImage(file, name) {
-    console.log('x')
     var img = new Image();
     img.src = file;
     img.onload = function() {
@@ -208,6 +217,10 @@
   c.addEventListener('click', function(ev) {
     readcolour(ev);
     colourpicked = true;
+  }, false);
+
+  undobutton.addEventListener('click', function(ev) {
+    undo();
   }, false);
 
   c.addEventListener('mousemove', function(ev) {
