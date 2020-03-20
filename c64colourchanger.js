@@ -190,7 +190,6 @@
   }
 
   function loadImage(file, name) {
-    console.log('x')
     var img = new Image();
     img.src = file;
     img.onload = function() {
