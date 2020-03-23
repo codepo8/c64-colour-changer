@@ -2,6 +2,8 @@
 
 This is a simple online tool to change colours in a PNG image considered to be converted into something used on the Commodore C64. I lately started using [Multipaint](http://multipaint.kameli.net/) and ~~it lacks a feature to replace one colour with another~~ I was too stupid to realise how the recolour function of it works.
 
+All the code is in the gh-pages branch so it can run on github, so go look there to crack and make a first release.
+
 Tested on Safari, Edge, Firefox and Chrome.
 
 ## How to use
