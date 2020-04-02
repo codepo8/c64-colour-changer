@@ -92,8 +92,9 @@
   }
 
   function showzoom(ev) {
-    var x = ev.layerX;
-    var y = ev.layerY;
+    var getpos = getposition(ev);
+    var x = getpos.x;
+    var y = getpos.y;
     var sx = (x-5) < 0 ? 0 : x-5;
     var sy = (y-5) < 0 ? 0 : y-5;
     zcx.fillStyle = '#000';
@@ -104,10 +105,16 @@
     zcx.lineCap = 'square';
     zcx.strokeRect(30,40,20,10);
   }
-
+  function getposition(ev) {
+    var x = ev.clientX;
+    var y = ev.clientY;
+    var pos = c.getBoundingClientRect();
+    return {x:x-pos.x|0,y:y-pos.y|0};
+  }
   function readcolour(ev) {
-    var x = ev.layerX;
-    var y = ev.layerY;
+    var getpos = getposition(ev);
+    var x = getpos.x;
+    var y = getpos.y;
     swab.style.background = 'rgba('+
       pixelcolour(x, y).r + ',' +
       pixelcolour(x, y).g + ',' +

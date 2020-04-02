@@ -21,7 +21,6 @@ li, p, input {
   background: #999;
   padding-bottom: 20px;
   position: relative;
-  min-height: 300px;
   width: 600px;
   margin: 0 auto;
 }
@@ -44,32 +43,31 @@ header {
 h1 {
   text-transform: uppercase;
   color: #fff;
-  height: 30px;
+  height: 40px;
   background: #333;
   font-weight: normal;
   font-size: 20px;
   padding: 0 10px;
-  line-height: 30px;
+  line-height: 40px;
+}
+#imagecontainer {
+  position: relative;
 }
 footer a {
   color: #fff;
 }
 #logo {
   position: absolute;
-  right: 10px;
-  top: 40px;
+  left: 10px;
+  top: 180px;
 }
 #main {
-  z-index: 2;
-  right: 10px;
-  top: 40px;
-  position: absolute;
+  cursor: crosshair;
+  margin: 110px 0 0 10px;
   background-color: #333;
   background-image: linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555), linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555);
   background-size: 30px 30px;
   background-position:0 0, 15px 15px;
-  width: 320px;
-  height: 200px;
 }
 #swab, #zoom {
   background: #000;
@@ -79,17 +77,18 @@ footer a {
   position: absolute;
 }
 #swab {
-  top: 40px;
-  left: 10px;
+  top: 45px;
+  left: 130px;
 }
 #zoom {
-  top: 40px;
-  left: 130px;
+  top: 45px;
+  left: 10px;
 }
 #buttons {
   position: absolute;
-  bottom: 0;
-  width: 100%;
+  top: 2px;
+  right: 20px;
+  width: 50%;
   display: flex;
 }
 #buttons div {
@@ -133,8 +132,8 @@ ul.palette {
   overflow: hidden;
   clear: both;
   position: absolute;
-  top: 150px;
-  left: 10px;
+  top: 45px;
+  right: 25px;
   width: 200px;
 }
 .transparent {
@@ -170,17 +169,18 @@ ul.palette li {
 }
 #undobutton {
   position: absolute;
-  top: 220px;
-  left: 10px;
-  padding: 0;
+  top: 95px;
+  right: 25px;
+  width: 200px;
+  display: block;
+  padding: 5px 10px;
+  font-size: 15px;
   border: none;
   font: inherit;
   color: inherit;
   background-color: transparent;
   cursor: pointer;
-  width: 200px;
   background: #9AD284;
-  padding: 5px 10px;
 }
 aside {
   transition: 500ms;
