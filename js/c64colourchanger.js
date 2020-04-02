@@ -105,12 +105,14 @@
     zcx.lineCap = 'square';
     zcx.strokeRect(30,40,20,10);
   }
-  function getposition(ev) {
+
+  function getposition (ev) {
     var x = ev.clientX;
     var y = ev.clientY;
     var pos = c.getBoundingClientRect();
-    return {x:x-pos.x|0,y:y-pos.y|0};
+    return {x: x - pos.x|1, y: y-pos.y|1};
   }
+
   function readcolour(ev) {
     var getpos = getposition(ev);
     var x = getpos.x;
