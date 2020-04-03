@@ -9,29 +9,28 @@
 (function(){
 
   if (!document.querySelector) {return false;}
-  var swab =       document.querySelector('#swab');
-  var c64palette = document.querySelector('#c64colours');
-  var container =  document.querySelector('#container');
-  var save =  document.querySelector('#savebutton');
-  var undobutton = document.querySelector('#undobutton');
-  var url = window.URL || window.webkitURL;
-  var objURL = url.createObjectURL || false;
-  var fileinput = document.querySelector('#getfile');
-  var c = document.querySelector('#main');
-  var ctx = c.getContext('2d');
-  var zc = document.querySelector('#zoom');
-  var zcx = zc.getContext('2d');
+  let swab =       document.querySelector('#swab');
+  let c64palette = document.querySelector('#c64colours');
+  let container =  document.querySelector('#container');
+  let save =  document.querySelector('#savebutton');
+  let undobutton = document.querySelector('#undobutton');
+  let url = window.URL || window.webkitURL;
+  let objURL = url.createObjectURL || false;
+  let fileinput = document.querySelector('#getfile');
+  let c = document.querySelector('#main');
+  let ctx = c.getContext('2d');
+  let zc = document.querySelector('#zoom');
+  let zcx = zc.getContext('2d');
   zc.width = 80;
   zc.height = 80;
   zcx.imageSmoothingEnabled = false;
-  zcx.mozImageSmoothingEnabled = false;
   zcx.webkitImageSmoothingEnabled = false;
-  var pixels;
-  var store;
-  var colourpicked = false;
-  var oldpixelcolour;
-  var pixelbuffer = [];
-  var c64cols = {
+  let pixels;
+  let store;
+  let colourpicked = false;
+  let oldpixelcolour;
+  let pixelbuffer = [];
+  let c64cols = {
     transparent: [0, 0, 0, 0],
     black:      [0, 0, 0, 255],
     white:      [255, 255, 255, 255],
@@ -52,8 +51,8 @@
   };
 
 
-  function getC64colour(e) {
-    var t = e.target;
+  const getC64colour = (e) => {
+    let t = e.target;
     if (t.tagName === 'LI') {
       if (oldpixelcolour) {
         replacecolour(
@@ -72,12 +71,12 @@
     e.preventDefault();
   }
 
-  function replacecolour(data, oldcolour, newcolour) {
-    var all = pixelbuffer.length;
+  const replacecolour = (data, oldcolour, newcolour) => {
+    let all = pixelbuffer.length;
     undobutton.classList.remove('inactive');
     store = ctx.getImageData(0, 0, c.width, c.height);
-    for(var j = 0; j < all; j++) {
-      var i = pixelbuffer[j];
+    for(let j = 0; j < all; j++) {
+      let i = pixelbuffer[j];
         pixels.data[i] = newcolour[0];
         pixels.data[i+1] = newcolour[1];
         pixels.data[i+2] = newcolour[2];
@@ -87,16 +86,15 @@
     tosavestring();
   }
 
-  function tosavestring(){
-    save.href = c.toDataURL('image/png'); 
-  }
+  const tosavestring = () => save.href = c.toDataURL('image/png'); 
 
-  function showzoom(ev) {
-    var getpos = getposition(ev);
-    var x = getpos.x;
-    var y = getpos.y;
-    var sx = (x-5) < 0 ? 0 : x-5;
-    var sy = (y-5) < 0 ? 0 : y-5;
+
+  const showzoom = (ev) => {
+    let getpos = getposition(ev);
+    let x = getpos.x;
+    let y = getpos.y;
+    let sx = (x-5) < 0 ? 0 : x-5;
+    let sy = (y-5) < 0 ? 0 : y-5;
     zcx.fillStyle = '#000';
     zcx.fillRect(0,0,80,80);
     zcx.drawImage(c,sx,sy,10,10,0,0,80,80);
@@ -106,17 +104,17 @@
     zcx.strokeRect(30,40,20,10);
   }
 
-  function getposition (ev) {
-    var x = ev.clientX;
-    var y = ev.clientY;
-    var pos = c.getBoundingClientRect();
+  const getposition = (ev) => {
+    let x = ev.clientX;
+    let y = ev.clientY;
+    let pos = c.getBoundingClientRect();
     return {x: x - pos.x|1, y: y-pos.y|1};
   }
 
-  function readcolour(ev) {
-    var getpos = getposition(ev);
-    var x = getpos.x;
-    var y = getpos.y;
+  const readcolour = (ev) => {
+    let getpos = getposition(ev);
+    let x = getpos.x;
+    let y = getpos.y;
     swab.style.background = 'rgba('+
       pixelcolour(x, y).r + ',' +
       pixelcolour(x, y).g + ',' +
@@ -128,11 +126,11 @@
     }
   }
 
-  function getpixelsofcolour(col) {
+  const getpixelsofcolour = (col) => {
     pixelbuffer = [];
-    var pixels = ctx.getImageData(0, 0, c.width, c.height);
-    var all = pixels.data.length;
-    for(var i = 0; i < all; i+=4) {
+    let pixels = ctx.getImageData(0, 0, c.width, c.height);
+    let all = pixels.data.length;
+    for(let i = 0; i < all; i+=4) {
       if (pixels.data[i] === col.r &&
           pixels.data[i+1] === col.g &&
           pixels.data[i+2] === col.b &&
@@ -142,14 +140,14 @@
     }
   }
 
-  function undo() {
+  const undo = () => {
     if (store.data) { 
       ctx.putImageData(store, 0, 0);
     }
   }
 
-  function pixelcolour(x, y) {
-    var pixeldata = ctx.getImageData(x,y,1,1);
+  const pixelcolour = (x, y) => {
+    let pixeldata = ctx.getImageData(x,y,1,1);
     return {
         r: pixeldata.data[0],
         g: pixeldata.data[1],
@@ -158,47 +156,47 @@
     };
   }
 
-  function getClipboardImage(pasteEvent, callback){
+  const getClipboardImage = (pasteEvent, callback) => {
     if(pasteEvent.clipboardData == false){
           if(typeof(callback) == "function"){
               callback(undefined);
           }
       };
-      var items = pasteEvent.clipboardData.items;
+      let items = pasteEvent.clipboardData.items;
       if (items) {
           if(typeof(callback) == "function"){
               callback(undefined);
           }
       };
-      for (var i = 0; i < items.length; i++) {
+      for (let i = 0; i < items.length; i++) {
           if (items[i].type.indexOf("image") == -1) continue;
-          var blob = items[i].getAsFile();
+          let blob = items[i].getAsFile();
           if(typeof(callback) == "function"){
               callback(blob);
           }
       }
   }
 
-  window.addEventListener('paste', function(e){
+  window.addEventListener('paste', (e) => {
     getClipboardImage(e, function(imageBlob){
           if(imageBlob){
-              var img = new Image();
+              let img = new Image();
               img.onload = function(){
                 imagetocanvas(this, img.naturalWidth, img.naturalHeight, name);
               };
-              var URLObj = window.URL || window.webkitURL;
+              let URLObj = window.URL || window.webkitURL;
               img.src = URLObj.createObjectURL(imageBlob);
           }
       });
   }, false);
 
-  function getfile(e) {
+  const getfile = (e) => {
     i = 0;
-    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
         if(objURL) {
           loadImage(url.createObjectURL(file),file.name);
         } else {
-          var reader = new FileReader();
+          let reader = new FileReader();
           reader.readAsDataURL( file );
           reader.onload = function ( ev ) {
             loadImage(ev.target.result,file.name);
@@ -208,14 +206,14 @@
     e.preventDefault();
   }
 
-  function loadImage(file, name) {
-    var img = new Image();
+  const loadImage = (file, name) => {
+    let img = new Image();
     img.src = file;
     img.onload = function() {
       imagetocanvas(this, img.naturalWidth, img.naturalHeight, name);
     };
   }
-  function imagetocanvas(img, w, h, name) {
+  const imagetocanvas = (img, w, h, name) => {
     c.width = w;
     c.height = h;
     ctx.drawImage(img, 0, 0, w, h);
@@ -223,16 +221,16 @@
     tosavestring();
   }
 
-  c.addEventListener('click', function(ev) {
+  c.addEventListener('click', ev => {
     readcolour(ev);
     colourpicked = true;
   }, false);
 
-  undobutton.addEventListener('click', function(ev) {
+  undobutton.addEventListener('click', ev => {
     undo();
   }, false);
 
-  c.addEventListener('mousemove', function(ev) {
+  c.addEventListener('mousemove', ev => {
     if (!colourpicked) {
       readcolour(ev);
     }
@@ -241,11 +239,12 @@
 
   c64palette.addEventListener('click', getC64colour, false);
 
-  container.addEventListener('dragover', function(ev) {
-    ev.preventDefault();
-  }, false );
+  container.addEventListener('dragover', ev => ev.preventDefault());
+
   container.addEventListener('drop', getfile, false);
+
   fileinput.addEventListener('change', getfile, false);
+
   loadImage('./c64recolour.png','');
 
 })();
