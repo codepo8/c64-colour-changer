@@ -14,6 +14,7 @@
   let container =  document.querySelector('#container');
   let save =  document.querySelector('#savebutton');
   let undobutton = document.querySelector('#undobutton');
+  let swatches = document.querySelector('#swatches');
   let url = window.URL || window.webkitURL;
   let objURL = url.createObjectURL || false;
   let fileinput = document.querySelector('#getfile');
@@ -96,6 +97,7 @@
     let sx = (x-5) < 0 ? 0 : x-5;
     let sy = (y-5) < 0 ? 0 : y-5;
     zcx.fillStyle = '#000';
+
     zcx.fillRect(0,0,80,80);
     zcx.drawImage(c,sx,sy,10,10,0,0,80,80);
     zcx.strokeStyle = 'black';
@@ -138,6 +140,35 @@
         pixelbuffer.push(i);
       }
     }
+  }
+
+  const analysecolours = (pixels) => {
+    let all = pixels.length;
+    let coloursused = {};
+    let i = 0;
+    let j = 0;
+    for (i = 0; i < all; i+=4) {
+      coloursused[pixels[i]+'|'+pixels[i+1]+'|'+pixels[i+2]+'|'+pixels[i+3]] = 1;
+    }
+    var lis = document.querySelectorAll('.palette li');
+    for (i = 0; i < lis.length; i++) {
+      lis[i].classList.remove('used');
+    }
+    let out = '';
+    for (i in coloursused) {
+      out += `<button class="swatch" style="background:rgba(${i.replace(/\|/g,',')})"data-col="${i}"></button>`;
+    
+      for (j in c64cols) {
+        var parts = i.split('|');
+        if (c64cols[j][0] === +parts[0] &&
+            c64cols[j][1] === +parts[1] &&
+            c64cols[j][2] === +parts[2] &&
+            c64cols[j][3] === +parts[3]) {
+              document.querySelector('.'+j).classList.add('used');
+        }
+      }
+    }
+    swatches.innerHTML = out;
   }
 
   const undo = () => {
@@ -218,6 +249,7 @@
     c.height = h;
     ctx.drawImage(img, 0, 0, w, h);
     pixels = ctx.getImageData(0, 0, c.width, c.height);
+    analysecolours(pixels.data);
     tosavestring();
   }
 
@@ -236,6 +268,23 @@
     }
     showzoom(ev);
   }, false);
+
+  const swatchpicked = (ev) => {
+    let t = ev.target;
+    if (t.nodeName === 'BUTTON') {
+      let col = t.dataset.col.split('|');
+      let colobj = {
+        r: +col[0],
+        g: +col[1],
+        b: +col[2],
+        a: +col[3]
+      }
+      oldpixelcolour = colobj;
+      getpixelsofcolour(colobj);
+  }
+  }
+
+  swatches.addEventListener('click', swatchpicked, false);
 
   c64palette.addEventListener('click', getC64colour, false);
 

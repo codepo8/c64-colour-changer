@@ -52,7 +52,7 @@ h1 {
 }
 #imagecontainer {
   position: relative;
-  margin-top: 110px;
+  margin-top: 10px;
 }
 footer a {
   color: #fff;
@@ -211,4 +211,14 @@ aside p:last-of-type a {
   background: #B8C76F;
   color: #000;
   text-decoration: none;
+}
+#swatches {
+  margin-top: 100px;
+  margin-left: 20px;
+}
+.swatch {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: none;
 }
